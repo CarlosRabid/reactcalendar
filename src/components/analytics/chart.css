@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+.charts{
+    display: -webkit-flex;
+    display: flex;
+    height: 80vh;
+    width: 80vw;
+    justify-content: space-evenly;
+}
+.charty{
+    display: -webkit-flex;
+    display: flex;
+    
+    justify-content: space-evenly;
+}
+.recharts-surface{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-evenly;
+
+}
