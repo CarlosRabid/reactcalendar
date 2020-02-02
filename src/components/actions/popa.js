@@ -6,7 +6,11 @@ import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from 
 import moment from 'moment';
 import DateInput from './DateInput';
 import TextField from '@material-ui/core/TextField';
-// import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -25,7 +29,7 @@ class Popup extends React.Component {
          title: "",
          start: "",
          end: "",
-         allDay: "false",
+         allDay: "",
          starten: "",
          enden: "",
          city: ""
@@ -75,35 +79,42 @@ class Popup extends React.Component {
       if (event.target.value === "true") {
          allDay = "true"
          start = moment(this.state.start).format('YYYY-MM-DD hh:mm:ss')
-         end = moment(start).add(23, 'hours').format('YYYY-MM-DD hh:mm:ss')
-         await this.setState({ starten: start, enden: end, allDay: allDay,
-         end: moment(end).format('YYYY-MM-DD') })
-         return console.log(end)
+         end = moment(start).add(11, 'hours').format('YYYY-MM-DD hh:mm:ss')
+         return this.setState({
+            starten: start, enden: end, allDay: allDay,
+            end: moment(end).format('YYYY-MM-DD')
+         })
+
       } else {
+         start = moment(this.state.start).format('YYYY-MM-DD hh:mm:ss')
+         end = moment(...this.state.end).format('YYYY-MM-DD hh:mm:ss')
          allDay = "false"
-         return this.setState({ allDay })
+         return this.setState({ starten: start, enden: end, allDay: allDay, end: moment(end).format('YYYY-MM-DD')  })
       }
    }
 
 
    updateData = async (e) => {
+      let end = {...this.state.end}
       let cityData = []
-      // let state = { ...this.state }
-      // let _id = e.target.name
+      let enden = {...this.state.enden}
+      // enden = (enden=='Invalid date') ? moment(this.state.end).add(12, 'hours').format('YYYY-MM-DD hh:mm:ss') 
+      // : this.state.enden 
       cityData = await this.getCityData(this.state.city)
       // let obj = {_id, name: this.state.name, surname: this.state.surname, email: this.state.email}
       console.log(cityData)
       // await this.props.updateData('obj')
-      if (window.confirm("Ha seleccionado " + JSON.stringify(cityData.name)
-         + " condiciones de "
-         + JSON.stringify(cityData.temperature)
-         + " grados y "
-         + JSON.stringify(cityData.condition)
-         + " desea confirmar su recordatorio:")) {
-            this.pushData(this.state.title, this.state.start, this.state.end, this.state.allDay, this.state.city)
-            alert('Successful')
+      if (window.confirm("You have selected " + JSON.stringify(cityData.name)
+      + " weather conditions of "
+      + JSON.stringify(cityData.temperature)
+      + " celsius and "
+      + JSON.stringify(cityData.condition)
+      + " please confirm reminder: ")) {
+         end = moment(end).add(12, 'hours').format('YYYY-MM-DD')
+         console.log(end)
+         await this.pushData(this.state.title, this.state.start, this.state.end, this.state.allDay, this.state.city)
+         alert('Saved!.')
          return this.closePopup()
-         // break
       } else {
          return console.log(e)
       }
@@ -115,51 +126,61 @@ class Popup extends React.Component {
       const marginLeft = '5%';
       const heightD = '10%';
       return (
-         <div className='popup'>
-            <div className='popup\_inner'>
-               <h4>Update</h4>
-               <TextField id="title" label="Reminder Title"
-                  value={this.state.title} onChange={this.update} />
-               <div>Start date:
-               <input type="date" id="start"
-                     placeholder={this.state.start}
-                     start="start"
-                     value={this.state.start}
-                     onChange={this.update} />
-               </div>
-               <TextField id="city" label="City" value={this.state.city} onChange={this.update} />
-               <div>All Day event? :
+         <div className='none'>
+            {/* <div className='popup\_inner'> */}
+            <Dialog
+               fullScreen={false}
+               open={true}
+               onClose={this.closePopup}
+               aria-labelledby="responsive-dialog-title"
+            >
+               <DialogContent>
+                  <DialogContentText></DialogContentText>
+                  <TextField id="title" label="Reminder Title"
+                     value={this.state.title} onChange={this.update} />
+                  <div>Start date:
+                     <input type="date" id="start"
+                        placeholder={this.state.start}
+                        start="start"
+                        value={this.state.start}
+                        onChange={this.update} />
+                  </div>
+                  <TextField id="city" label="City" value={this.state.city} onChange={this.update} />
+                  <div>All Day event? :
                     <ToggleButtonGroup
-                     value={this.state.allDay}
-                     exclusive
-                     onChange={this.allDaySelector}
-                     aria-label="Yes"
-                     style={{ justifyContent: "center" }}
-                  >
-                     <ToggleButton id="allDay" value="true" aria-label="All Day event"
-                        style={{ height: '6vh', justifySelf: "center" }}>
-                        <FontAwesomeIcon id="allDay" value="true" icon={faCheckSquare} />
-                     </ToggleButton>
-                     <ToggleButton id="allDay" value="false"
-                        style={{ height: '6vh', justifySelf: "center" }}
-                        color="secondary" aria-label="Range time">
-                        <FontAwesomeIcon icon={faCalendarTimes} id="allDay" value="false" />
-                     </ToggleButton>
-                  </ToggleButtonGroup>
-               </div>
-               <br />
-               {this.state.allDay === "true" ?
-                  <></> : <>'End date:' <input type="date" id="end"
-                     placeholder={this.state.end}
-                     start="start"
-                     value={this.state.end}
-                     onChange={this.update} />
-                     <br></br>
-                  </>
-               }
-               <button name={null} onClick={this.updateData} >Update</button>
-               <button onClick={this.closePopup} >Discard Changes</button>
-            </div>
+                        value={this.state.allDay}
+                        exclusive
+                        onChange={this.allDaySelector}
+                        aria-label="Yes"
+                        style={{ justifyContent: "center" }}
+                     >
+                        <ToggleButton id="allDay" value="true" aria-label="All Day event"
+                           style={{ height: '6vh', justifySelf: "center" }}>
+                           <FontAwesomeIcon id="allDay" value="true" icon={faCheckSquare} />
+                        </ToggleButton>
+                        <ToggleButton id="allDay" value="false"
+                           style={{ height: '6vh', justifySelf: "center" }}
+                           color="secondary" aria-label="Range time">
+                           <FontAwesomeIcon icon={faCalendarTimes} id="allDay" value="false" />
+                        </ToggleButton>
+                     </ToggleButtonGroup>
+                  </div>
+                  <br />
+                  {this.state.allDay === "" || this.state.allDay == "true"  ?
+                     <></> : <> End date: <input type="date" id="end"
+                        placeholder={this.state.end}
+                        start="start"
+                        value={this.state.end}
+                        onChange={this.update} />
+                        <br/>
+                        </>
+                     }
+               </DialogContent>
+               <DialogActions>
+                  <button name={null} onClick={this.updateData} >Update</button>
+                  <button onClick={this.closePopup} >Discard Changes</button>
+               </DialogActions>
+            </Dialog>
          </div>
       );
    }

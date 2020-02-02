@@ -76,11 +76,14 @@ app.get('/events', async function (req, res) {
 })
 app.post('/pevent', async function (req, res) {
     let data = req.body.data
-    console.log(data)
+    let end = moment(data.end).add(15, 'hours').format('YYYY-MM-DD hh:mm:ss')
+    end = moment(end, moment.ISO_8601)
+    
+    console.log(end)
     let reminder = new eventscollection({
         title: data.title,
-        start: new Date(data.start), //Date
-        end: new Date(data.end), //Date
+        start: moment(data.start), //Date
+        end: moment(data.end), //Date
         allDay: data.allDay, //boolean 
         city: data.city //any
     })
