@@ -62,7 +62,7 @@ app.get('/event/:cityName', function (req, res) {
                 condition: cit.current.weather_descriptions[0],
                 conditionPic: cit.current.weather_icons[0]
             })
-            console.log(ncity)
+            // console.log(ncity)
             res.send(ncity)
         })
 })
@@ -70,7 +70,7 @@ app.get('/event/:cityName', function (req, res) {
 app.get('/events', async function (req, res) {
     await eventscollection.find({}, function (err, result) {
         // result = JSON.parse(result)
-        console.log(result)
+        // console.log(result)
         res.send(result)
     })
 })

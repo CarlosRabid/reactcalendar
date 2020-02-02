@@ -15,7 +15,6 @@ import {
 } from 'react-big-calendar'
 import moment from 'moment'
 
-import result from './components/clients/data.json';
 // import Navbarcomp from './components/actions/navbarcomp'
 // import Clients from './components/clients/clients';
 // import Modal from 'react-bootstrap/Modal'
@@ -54,13 +53,6 @@ class App extends Component {
 
   async getDatafromDB() {
     let data = await axios.get('http://localhost:4328/events')
-    // let data = [ 
-    // {title: 'Test31/01', //string
-    //   start:  new Date(), //Date
-    //   end:  new Date(), //Date
-    //   allDay : true , //boolean 
-    //   resource : 'resource' //any
-    // } ]
     console.log(data.data)
     return this.setState({ data: data.data, showPopup: false })
   }
@@ -96,14 +88,14 @@ closePopup = () => {
     this.setState({ data })
     // this.setState({clients})
   }
-  pushData = async (title, start, end, allDay, resource) => {
+  pushData = async (title, start, end, allDay, city) => {
 
     let data = {}
     // let data = [...this.state.data]
     // data.push({ name, country, owner })
     // let nclient = {name, country, owner}
     await axios.post('http://localhost:4328/pevent', {
-      data: { title, start, end, allDay, resource }
+      data: { title, start, end, allDay, city }
     })
     // this.setState({ data })
     console.log(data)
@@ -120,7 +112,7 @@ closePopup = () => {
         <Route path="/" exact render={() =>
           <div className="calendar-container">
             <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup">Add reminder</Button>
-            {this.state.showPopup ? <Popup closePopup={this.closePopup}/> :
+            {this.state.showPopup ? <Popup closePopup={this.closePopup} pushData={this.pushData}/> :
             <Calendar popup='true'
               localizer={localizer}
               events={this.state.data}
