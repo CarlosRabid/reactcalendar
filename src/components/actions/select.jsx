@@ -4,15 +4,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
 
 class Selector extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             colors: ["#8e44ad", "#3498db",
                 "#c0392b", "#f1c40f", "#d35400"
                 // , "#2ecc71",
                 // "#1abc9c", "#2c3e50", "#7f8c8d"
             ],
-            selected: ""
+            selected: this.props.colored
         }
     }
 
@@ -34,7 +34,7 @@ class Selector extends Component {
         return <div><Select
             labelId="colors"
             id="colors"
-            value={colours}
+            value={this.props.colored}
             onChange={this.handleInput}
             renderValue={colours => `⚠️ `} //- ${colours}`}
             style={{backgroundColor: `${this.state.selected}`}}

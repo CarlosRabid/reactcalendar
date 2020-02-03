@@ -35,7 +35,7 @@ const eventsSchema = new Schema({
     start: Date,
     end: Date,
     allDay: Boolean,
-    city: String, 
+    city: String,
     color: String
 })
 const citySchema = new Schema({
@@ -54,7 +54,7 @@ app.get('/event/:cityName', function (req, res) {
     let cityName = req.params.cityName
 
     request(`http://api.weatherstack.com/current?access_key=${apik}&query=${cityName}`,
-    async function (error, result, data) {
+        async function (error, result, data) {
             let cit = await JSON.parse(data)
             ncity = new citties({
                 name: cit.location.name,  //location.name
@@ -79,7 +79,7 @@ app.post('/pevent', async function (req, res) {
     let data = req.body.data
     let end = moment(data.end).add(15, 'hours').format('YYYY-MM-DD hh:mm:ss')
     end = moment(end, moment.ISO_8601)
-    
+
     console.log(end)
     let reminder = new eventscollection({
         title: data.title,
@@ -93,6 +93,39 @@ app.post('/pevent', async function (req, res) {
     reminder.save(
         res.send()
     )
+})
+
+app.put('/upevent', async (req, res) => {
+    let event = req.body.data
+    console.log(event)
+    await eventscollection.findByIdAndUpdate(event.id, {
+        title: event.title,
+        start: event.start, end: event.end, allDay: event.allDay, city: event.city,
+        color: event.color
+    }, { new: true }, (err, result) => {
+        if (err) throw err;
+        else res.send(result)
+    })
+})
+
+
+app.delete('/delevent/:eventid', async function (req, res) {
+    let _id = req.params.eventid
+    await eventscollection.findOne({ _id }, function (err, reply) {
+        reply.remove()
+        eventscollection.find({}, function (err, response) {
+            res.send(response)
+        })
+    })
+})
+
+
+app.delete('/empty/', async function (req, res) {
+    let _id = req.params.eventid
+    await eventscollection.remove({}, function (err, response) {
+        res.send(response)
+    })
+    return
 })
 
 app.listen(PORT, function () {
