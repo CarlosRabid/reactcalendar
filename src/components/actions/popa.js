@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import moment from 'moment';
 import DateInput from './DateInput';
+import Selector from './select';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,6 +15,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { faCheckSquare, faCalendarTimes, faStar, faStarHalfAlt, faStarHalf, faGrinStars, faStarOfLife, faBan } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -32,19 +35,20 @@ class Popup extends React.Component {
          allDay: "",
          starten: "",
          enden: "",
-         city: ""
+         city: "",
+         color: ""
       }
    }
    closePopup = () => {
       this.props.closePopup()
    }
    handleInput = (event) => {
-      let state = { ...this.state }
+      // console.log(event)
+      let value = { ...this.state.value }
       // let date = state.daten
       // let time = state.timen
-      state.daten = moment(event).format('DD/MM/YYYY')
-      state.timen = moment(event).format('HH:mm')
-      this.setState(state.daten, state.timen)
+      value = event
+      return this.setState(value)
    }
 
    update = async (event) => {
@@ -66,9 +70,9 @@ class Popup extends React.Component {
       console.log(data.data)
       return data.data
    }
-   pushData = async (title, start, end, allDay, city) => {
+   pushData = async (title, start, end, allDay, city, color) => {
 
-      await this.props.pushData(title, start, end, allDay, city)
+      await this.props.pushData(title, start, end, allDay, city, color)
       return
    }
    allDaySelector = async (event) => {
@@ -89,15 +93,15 @@ class Popup extends React.Component {
          start = moment(this.state.start).format('YYYY-MM-DD hh:mm:ss')
          end = moment(...this.state.end).format('YYYY-MM-DD hh:mm:ss')
          allDay = "false"
-         return this.setState({ starten: start, enden: end, allDay: allDay, end: moment(end).format('YYYY-MM-DD')  })
+         return this.setState({ starten: start, enden: end, allDay: allDay, end: moment(end).format('YYYY-MM-DD') })
       }
    }
 
 
    updateData = async (e) => {
-      let end = {...this.state.end}
+      let end = { ...this.state.end }
       let cityData = []
-      let enden = {...this.state.enden}
+      let enden = { ...this.state.enden }
       // enden = (enden=='Invalid date') ? moment(this.state.end).add(12, 'hours').format('YYYY-MM-DD hh:mm:ss') 
       // : this.state.enden 
       cityData = await this.getCityData(this.state.city)
@@ -105,14 +109,14 @@ class Popup extends React.Component {
       console.log(cityData)
       // await this.props.updateData('obj')
       if (window.confirm("You have selected " + JSON.stringify(cityData.name)
-      + " weather conditions of "
-      + JSON.stringify(cityData.temperature)
-      + " celsius and "
-      + JSON.stringify(cityData.condition)
-      + " please confirm reminder: ")) {
+         + " weather conditions of "
+         + JSON.stringify(cityData.temperature)
+         + " celsius and "
+         + JSON.stringify(cityData.condition)
+         + " please confirm reminder: ")) {
          end = moment(end).add(12, 'hours').format('YYYY-MM-DD')
          console.log(end)
-         await this.pushData(this.state.title, this.state.start, this.state.end, this.state.allDay, this.state.city)
+         await this.pushData(this.state.title, this.state.start, this.state.end, this.state.allDay, this.state.city, this.state.value)
          alert('Saved!.')
          return this.closePopup()
       } else {
@@ -127,7 +131,6 @@ class Popup extends React.Component {
       const heightD = '10%';
       return (
          <div className='none'>
-            {/* <div className='popup\_inner'> */}
             <Dialog
                fullScreen={false}
                open={true}
@@ -166,15 +169,17 @@ class Popup extends React.Component {
                      </ToggleButtonGroup>
                   </div>
                   <br />
-                  {this.state.allDay === "" || this.state.allDay == "true"  ?
+                  {this.state.allDay === "" || this.state.allDay == "true" ?
                      <></> : <> End date: <input type="date" id="end"
                         placeholder={this.state.end}
                         start="start"
                         value={this.state.end}
                         onChange={this.update} />
-                        <br/>
-                        </>
-                     }
+                        <br />
+                     </>
+                  }
+                  Assign Color:
+                  <Selector handleInput= {this.handleInput}/>
                </DialogContent>
                <DialogActions>
                   <button name={null} onClick={this.updateData} >Update</button>

@@ -35,7 +35,8 @@ const eventsSchema = new Schema({
     start: Date,
     end: Date,
     allDay: Boolean,
-    city: String
+    city: String, 
+    color: String
 })
 const citySchema = new Schema({
     name: { type: String, required: true },  //location.name
@@ -85,16 +86,13 @@ app.post('/pevent', async function (req, res) {
         start: moment(data.start), //Date
         end: moment(data.end), //Date
         allDay: data.allDay, //boolean 
-        city: data.city //any
+        city: data.city, //any
+        color: data.color
     })
-    // nClt = JSON.stringify(nClt)
     console.log(reminder)
     reminder.save(
         res.send()
     )
-    // await Tx.find({}, function (err, result) {
-    //     console.log("getting route")
-    // })
 })
 
 app.listen(PORT, function () {
