@@ -19,8 +19,6 @@
   border-radius: 5px;
   border: 1em;  
   margin: auto;  
-  background: -webkit-linear-gradient(left, #85a100, #25b7c4);
-  background: linear-gradient(to right,  #85a100, #25b7c4);
   font-family: 'Montserrat', sans-serif;
 }  
 .popup\_inner {  
@@ -31,8 +29,6 @@
   bottom: 25%;  
   margin: auto;  
   border-radius: 20px;  
-  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-  background: linear-gradient(to right, #25c481, #25b7c4);
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -50,10 +46,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-/* body{
-  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-  background: linear-gradient(to right, #25c481, #25b7c4);
-} */
+
 .App-link {
   color: #09d3ac;
 }
