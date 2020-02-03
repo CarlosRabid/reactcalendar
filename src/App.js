@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Fab from '@material-ui/core/Fab';
 import { Button } from '@material-ui/core'
 import { BrowserRouter as Router, Route, Link, BrowserRouter } from 'react-router-dom'
 import './App.css';
@@ -23,14 +24,14 @@ import Editable from './components/actions/editable';
 // let dateFormat = PropTypes.any;
 let dateRangeFormat = PropTypes.func;
 
-// const timeRangeStartFormat = ({ start }, culture, local) =>
-//   `${local.format(start, 't', culture)} — `
-
-// const timeRangeEndFormat = ({ end }, culture, local) => ` — ${local.format(end, 't', culture)}`
-
-// const timeRangeFormat = ({ start, end }, culture, local) =>
-//   `${local.format(start, 't', culture)} — ${local.format(end, 't', culture)}`
-
+const style = {
+  margin: 0,
+  top: '81vh',
+  right: '30vw',
+  bottom: 20,
+  left: 'auto',
+  position: 'fixed',
+};
 let localizer = momentLocalizer(moment)
 
 class App extends Component {
@@ -49,18 +50,17 @@ class App extends Component {
 
   async getDatafromDB() {
     let data = await axios.get('http://localhost:4328/events')
-    return this.setState({ data: data.data, showPopup: false })
+    return this.setState({ data: data.data, showPopup: false, editmode: false })
   }
 
   async delEventfromDB(_id) {
+    console.log(_id)
     if (window.confirm("Delete this reminder ? ")) {
-      let data = await axios.delete('http://localhost:4328/delevent', {
-        params: { _id }
-      })
+      let data = await axios.delete('http://localhost:4328/delevent/' + `${_id}`)
       alert('Reminder Deleted!')
-      return this.setState({ data: data.data, editmode: false })
+      return this.closeEdit()
     } else {
-      return this.setState({ editmode: false })
+      return this.closeEdit()
     }
   }
 
@@ -128,11 +128,14 @@ class App extends Component {
       <BrowserRouter>
         <Route path="/" exact render={() =>
           <div className="calendar-container">
-            <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup"
-            >Add Reminder</Button>
-            <Button variant="contained" onClick={this.delDatafromDB} position='end' color="secondary" name="delete all" id="empty"
+            {/* <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup"
+            >Add Reminder</Button> */}
+            <br />
+            <Button variant="contained" onClick={this.delDatafromDB}
+              size='small' position='end' color="secondary" name="delete all" id="empty"
             >Empty ALL</Button>
-
+            <br />
+            <br />
             {this.state.editmode ? <Editable delEventfromDB={this.delEventfromDB}
               selectEvent={this.state.editmode} closeEdit={this.closeEdit} updateEvent={this.updateEvent} /> : <></>}
 
@@ -145,6 +148,9 @@ class App extends Component {
                 onSelectEvent={this.selecEvent}
                 views={['month']}
               />}
+            <Fab variant='extended' onClick={this.togglePopup}
+              name="showPopup" id="showPopup" color="default"
+              aria-label="add" style={style} size='large'>New Reminder</Fab>
           </div>
         }>
         </Route>

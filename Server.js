@@ -98,9 +98,9 @@ app.put('/upevent', async (req, res) => {
 })
 
 
-app.delete('/delevent/:eventid', async function (req, res) {
+app.delete('/delevent/:eventid', function (req, res) {
     let _id = req.params.eventid
-    await eventscollection.findOne({ _id }, function (err, reply) {
+    eventscollection.findOne({ _id }, function (err, reply) {
         reply.remove()
         eventscollection.find({}, function (err, response) {
             res.send(response)
