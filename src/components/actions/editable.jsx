@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import DateFnsUtils from '@date-io/date-fns';
-import { Grid } from '@material-ui/core';
-import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import moment from 'moment';
-import DateInput from './DateInput';
 import Selector from './select';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,9 +10,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { faCheckSquare, faCalendarTimes, faStar, faStarHalfAlt, faStarHalf, faGrinStars, faStarOfLife, faBan } from '@fortawesome/free-solid-svg-icons'
+import Button from '@material-ui/core/Button';
+import { faCheckSquare, faCalendarTimes, faTrash, faStarHalfAlt, faStarHalf, faGrinStars, faStarOfLife, faBan } from '@fortawesome/free-solid-svg-icons'
 
 const axios = require('axios')
 
@@ -28,18 +22,16 @@ class Editable extends React.Component {
         data.start = moment(data.start).format('YYYY-MM-DD');
         data.end = moment(data.end).format('YYYY-MM-DD');
         data.value = data.color
+        data.color = data.color
         this.state = data
     }
     closeEdit = () => {
         this.props.closeEdit()
     }
     handleInput = (event) => {
-        // console.log(event)
-        let value = { ...this.state.value }
-        // let date = state.daten
-        // let time = state.timen
-        value = event
-        return this.setState(value)
+        let color = { ...this.state.color }
+        color = event
+        return this.setState(color)
     }
 
     update = async (event) => {
@@ -47,9 +39,7 @@ class Editable extends React.Component {
         if (type === 'undefined') {
             return
         } else {
-            let state = { ...this.state }
             let value = event.target.value
-            console.log(value)
             await this.setState({
                 [type]: value
             })
@@ -57,20 +47,27 @@ class Editable extends React.Component {
     }
 
     getCityData = async (cityName) => {
-        let data = await axios.get('http://localhost:4328/event/' + cityName)
-        console.log(data.data)
+        let data = await axios
+            .get('http://localhost:4328/event/' + cityName)
         return data.data
     }
-    updateEvent = async (_id, title, start, end, allDay, city, color) => {
 
-        await this.props.updateEvent(_id, title, start, end, allDay, city, color)
+    updateEvent = async (_id, title, start, end, allDay, city, color) => {
+        await this.props.updateEvent(_id,
+            title, start, end, allDay,
+            city, color)
         return
     }
+
+    delEventfromDB = async (event) => {
+        // console.log(event.target.id)
+        await this.props.delEventfromDB(this.state._id)
+    }
+
     allDaySelector = async (event) => {
         let allDay = { ...this.state.allDay }
         let end = { ...this.state.start }
         let start = { ...this.state.start }
-        console.log(event.target.value)
         if (event.target.value === "true") {
             allDay = "true"
             start = moment(this.state.start).format('YYYY-MM-DD hh:mm:ss')
@@ -84,35 +81,30 @@ class Editable extends React.Component {
             start = moment(this.state.start).format('YYYY-MM-DD hh:mm:ss')
             end = moment(...this.state.end).format('YYYY-MM-DD hh:mm:ss')
             allDay = "false"
-            return this.setState({ starten: start, enden: end, allDay: allDay, end: moment(end).format('YYYY-MM-DD') })
+            return this.setState({
+                starten: start,
+                enden: end, allDay: allDay,
+                end: moment(end).format('YYYY-MM-DD')
+            })
         }
     }
-
 
     updateAction = async (e) => {
         let end = { ...this.state.end }
         let cityData = []
         let enden = { ...this.state.enden }
-        // enden = (enden=='Invalid date') ? moment(this.state.end).add(12, 'hours').format('YYYY-MM-DD hh:mm:ss') 
-        // : this.state.enden 
+        let state = { ...this.state }
         cityData = await this.getCityData(this.state.city)
-        // let obj = {_id, name: this.state.name, surname: this.state.surname, email: this.state.email}
-        console.log(cityData)
-        // await this.props.updateData('obj')
         if (window.confirm("Would you like to update changes made to your reminder ? ")) {
             end = moment(end).add(12, 'hours').format('YYYY-MM-DD')
-            console.log(end)
-            await this.updateEvent(this.state._id, this.state.title, this.state.start, this.state.end, this.state.allDay, this.state.city, this.state.value)
+            await this.updateEvent(state._id, state.title, state.start, state.end,
+                state.allDay, state.city, state.value)
             alert('Updated!')
             return this.closeEdit()
-        } else {
-            return console.log(e)
-        }
-
+        } else { return }
     }
 
     render() {
-        let clients = []
         const marginLeft = '5%';
         const heightD = '10%';
         return (
@@ -121,14 +113,25 @@ class Editable extends React.Component {
                     fullScreen={false}
                     open={true}
                     onClose={this.closeEdit}
-                    aria-labelledby="Review & Edit"
+                    aria-labelledby="Review , Update & Delete"
                 >
                     <DialogContent>
-                        <DialogContentText>Review & Edit</DialogContentText>
+                        <DialogContentText>Review, Update & Delete</DialogContentText>
                         <TextField id="title" label="Reminder Title"
                             value={this.state.title} onChange={this.update} />
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            value={this.state._id}
+                            size="small"
+                            id={this.state._id}
+                            startIcon={<FontAwesomeIcon id={this.state._id}
+                                onClick={this.delEventfromDB}
+                                value={this.state._id} icon={faTrash} />}
+                        >  Delete Reminder
+                        </Button>
                         <div>Start date:
-                     <input type="date" id="start"
+                         <input type="date" id="start"
                                 placeholder={this.state.start}
                                 start="start"
                                 value={this.state.start}
@@ -166,7 +169,7 @@ class Editable extends React.Component {
                         }
                         Assign Color:
                   <Selector colored={this.state.color} handleInput={this.handleInput} />
-                    </DialogContent>
+                  </DialogContent>
                     <DialogActions>
                         <button name={null} onClick={this.updateAction} >Update</button>
                         <button onClick={this.closeEdit} >Discard Changes</button>
