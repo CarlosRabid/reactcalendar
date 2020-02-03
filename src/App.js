@@ -63,6 +63,15 @@ class App extends Component {
     return this.setState({ data: data.data, showPopup: false })
   }
 
+  async delDatafromDB(eventid) {
+    let _id = eventid
+    let data = await axios.delete('http://localhost:4328/delevent', {
+      params: {_id}
+    })
+    console.log(data.data)
+    return this.setState({ data: data.data, showPopup: false })
+  }
+
   togglePopup = (event) => {
     // console.log(e.target.id)
     console.log(event)
@@ -93,6 +102,20 @@ class App extends Component {
     // let nclient = {name, country, owner}
     await axios.post('http://localhost:4328/pevent', {
       data: { title, start, end, allDay, city, color }
+    })
+    // this.setState({ data })
+    console.log(data)
+    return this.getDatafromDB()
+  }
+  updateData = async (id, title, start, end, allDay, city, color) => {
+
+    let data = {}
+    console.log(end)
+    // let data = [...this.state.data]
+    // data.push({ name, country, owner })
+    // let nclient = {name, country, owner}
+    await axios.put('http://localhost:4328/upevent', {
+      data: {id, title, start, end, allDay, city, color }
     })
     // this.setState({ data })
     console.log(data)
