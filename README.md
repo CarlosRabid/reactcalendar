@@ -66,23 +66,23 @@ Initially you will see the following calendar
 
 ## Running the tests: Add reminder
 
-![IniMobile](./public/inicalmob.png?raw=true "Initial ")
+![IniMobile](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/inicalmob.PNG "Initial ")
 
 You can add a new reminder. Click the button on top left corner of the app.
 A prompt will appear where you can input corresponding info. 
 When you type a city name, an API request for weather forecast 
 is made with the name of the city and date. 
 
-![mobile](./public/schedulemob.png?raw=true "Initial Mobile")
+![mobile](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/schedulemob.PNG "Initial Mobile")
 
 Before saving, info is displayed for confirmation.
 Save if ready, discard if not. 
 
-![addnew](./public/neweventmob.png?raw=true "Initial Mobile")
+![addnew](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/neweventmob.PNG "Initial Mobile")
 
 ## Review, update and delete a reminder
 
-![update](./public/editeventmob.png?raw=true "CRUD Ops")
+![update](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/editeventmob.PNG "CRUD Ops")
 
 For either action, simply select the reminder you want.
 A prompt appears showing available info for reviewing,
@@ -92,13 +92,13 @@ sure to submit them with the "Update" button.
 
 ### Delete all reminders and additional details
 
-![empty](./public/emptycaldesk.png?raw=true "Empty All")
+![empty](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/emptycaldesk.PNG "Empty All")
 
 On top of the calendar there's a red button with "EMPTY" label,
 this allows the removal of all reminders submitted. 
 Non-functional navigators were placed as future features.
 
-![confirm](./public/confirmationcal.png?raw=true "Confirmation")
+![confirm](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/emptycaldesk.PNG "Confirmation")
 
 *App includes confirmation for creating, updating or deleting reminders.*
 
@@ -126,7 +126,7 @@ Versioning available in Github with proper tags.
 
 ## Authors
 
-* **Carlos Cornejo N.** [CarlosRabid](https://github.com/CarlosRabid)
+* **Carlos Cornejo N.** [CarlosRabid ](https://github.com/CarlosRabid)
 
 ## License
 
