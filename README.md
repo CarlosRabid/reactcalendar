@@ -1,68 +1,128 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Calendar App
 
-## Available Scripts
+Calendar scheduler built with React for Coding challenge 
 
-In the project directory, you can run:
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+
+### Prerequisites
+
+You only need to have installed React and MongoDB. Rest of dependencies come with npm install command.
+Install React from official documentation here
+(https://en.reactjs.org/docs/getting-started.html)
+
+and MongoDB here --> (https://docs.mongodb.com/manual/installation/) 
+
+
+```
+<!-- Give examples -->
+```
+Once set up, go ahead and continue installation...
+
+
+### Installing
+
+All dependencies included. Once in the project folder, run :
+
+```
+### `npm install`
+
+This will install all necessary packages. Wait with a cup of coffee.
+```
+
+While installing, in the command shell, or system CMD 
+(command prompt) you can start the command 'mongod',
+necessary for mongodb connection.
+
+```
+Once command 'mongod' is executing and npm install has finished
+then you can run in the project directory the command
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
+This runs the app in development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+in order to start the application.
+Simultaneously run also the command
 
-### `npm run build`
+### `node server.js`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Runs the server for reminder persistency
+and CRUD operations availability .<br />
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You will see the following screen 
+initially without reminders.
 
-### `npm run eject`
+## Running the tests: Add reminder
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You can add a new reminder. Click the button on top left corner of the app.
+A prompt will appear where you can input corresponding info. 
+When you type a city name, an API request for weather forecast 
+is made with the name of the city and date. Before saving, 
+info is displayed for confirmation.
+Save if ready, discard if not. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Review, update and delete a reminder
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+For either action, simply select the reminder you want.
+A prompt appears showing available info for reviewing,
+updating input fields, or deleting  the selected reminder.
+If you did any changes to the selected reminder, make
+sure to submit them with the "Update" button.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Delete all reminders and additional details
 
-## Learn More
+On top of the calendar there's a red button with "EMPTY" label,
+this allows the removal of all reminders submitted. 
+Non-functional navigators were placed as future features.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+<!-- Give an example
+``` -->
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Known bugs
 
-### Code Splitting
+There's a bug regarding event range visualization. Currently working on it. Dates
+work good as well as CRUD operations. Should be only a matter of date format when
+rendering the whole calendar component.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+<!-- Give an example -->
+```
 
-### Analyzing the Bundle Size
+## Built With
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+* [React](https://en.reactjs.org) - The web framework used,
+* [MongoDB](https://maven.apache.org/) - State manager, backend handler,
+* [Weather](https://weatherstack.com/) - Weather forecast API request.
 
-### Making a Progressive Web App
+## Contributing
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+CCN.
 
-### Advanced Configuration
+## Versioning
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Versioning available in Github with proper tags. 
 
-### Deployment
+## Authors
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+* **Carlos Cornejo N.** [CarlosRabid](https://github.com/CarlosRabid)
 
-### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* old react-big-calendar used for template and styling time-consuming bypass.
+* Excellent example for putting knowledge/experience into practice.
+* For challenge purposes.

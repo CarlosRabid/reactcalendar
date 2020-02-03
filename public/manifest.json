@@ -1,6 +1,6 @@
 {
-  "short_name": "CRMreact App",
-  "name": "CRM APP example",
+  "short_name": "Calendar React",
+  "name": "React calendar example",
   "icons": [
     {
       "src": "favicon.ico",
