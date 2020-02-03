@@ -10,12 +10,14 @@
 }
 .popup {  
   position: fixed;  
-  width: 34%;  
-  height: 61%;  
-  top: 0;  
+  width: 80vw;  
+  height: 50vh;  
+  top: 17%;  
   left: 0;  
   right: 0;  
-  bottom: 50%;  
+  bottom: 50%;
+  border-radius: 5px;
+  border: 1em;  
   margin: auto;  
   background: -webkit-linear-gradient(left, #85a100, #25b7c4);
   background: linear-gradient(to right,  #85a100, #25b7c4);
@@ -23,8 +25,8 @@
 }  
 .popup\_inner {  
   position: absolute;  
-  left: 25%;  
-  right: 25%;  
+  left: 0;  
+  right: 0;  
   top: 0%;  
   bottom: 25%;  
   margin: auto;  

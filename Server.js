@@ -62,7 +62,7 @@ app.get('/event/:cityName', function (req, res) {
                 condition: cit.current.weather_descriptions[0],
                 conditionPic: cit.current.weather_icons[0]
             })
-            console.log(ncity)
+            // console.log(ncity)
             res.send(ncity)
         })
 })
@@ -70,17 +70,20 @@ app.get('/event/:cityName', function (req, res) {
 app.get('/events', async function (req, res) {
     await eventscollection.find({}, function (err, result) {
         // result = JSON.parse(result)
-        console.log(result)
+        // console.log(result)
         res.send(result)
     })
 })
 app.post('/pevent', async function (req, res) {
     let data = req.body.data
-    console.log(data)
+    let end = moment(data.end).add(15, 'hours').format('YYYY-MM-DD hh:mm:ss')
+    end = moment(end, moment.ISO_8601)
+    
+    console.log(end)
     let reminder = new eventscollection({
         title: data.title,
-        start: new Date(data.start), //Date
-        end: new Date(data.end), //Date
+        start: moment(data.start), //Date
+        end: moment(data.end), //Date
         allDay: data.allDay, //boolean 
         city: data.city //any
     })

@@ -15,7 +15,6 @@ import {
 } from 'react-big-calendar'
 import moment from 'moment'
 
-import result from './components/clients/data.json';
 // import Navbarcomp from './components/actions/navbarcomp'
 // import Clients from './components/clients/clients';
 // import Modal from 'react-bootstrap/Modal'
@@ -54,13 +53,6 @@ class App extends Component {
 
   async getDatafromDB() {
     let data = await axios.get('http://localhost:4328/events')
-    // let data = [ 
-    // {title: 'Test31/01', //string
-    //   start:  new Date(), //Date
-    //   end:  new Date(), //Date
-    //   allDay : true , //boolean 
-    //   resource : 'resource' //any
-    // } ]
     console.log(data.data)
     return this.setState({ data: data.data, showPopup: false })
   }
@@ -70,40 +62,31 @@ class App extends Component {
     console.log(event)
     this.setState({ showPopup: true })
     // this.props.togglePopup()
-}
-closePopup = () => {
-  this.setState({
-      showPopup: null
-  })
-}
-
-  updateData = (obj) => {
-    let data = [...this.state.data]
-    let client = data.find(c => {
-      return c["_id"] === obj._id
-    })
-    let name = obj.name + " " + obj.surname
-    console.log('pushed app array')
-    console.log(client)
-    data = data.map(d => {
-      if (d._id === obj._id) {
-        d.name = name;
-        d.email = obj.email
-        // break
-      }
-      return d
-    })
-    this.setState({ data })
-    // this.setState({clients})
   }
-  pushData = async (title, start, end, allDay, resource) => {
+  closePopup = () => {
+    return this.setState({
+      showPopup: null
+    })
+  }
+
+
+  selecEvent = (event, e) => {
+    return console.log(event, e)
+  }
+
+  getNow = () => {
+    return new Date()
+  }
+
+  pushData = async (title, start, end, allDay, city) => {
 
     let data = {}
+    console.log(end)
     // let data = [...this.state.data]
     // data.push({ name, country, owner })
     // let nclient = {name, country, owner}
     await axios.post('http://localhost:4328/pevent', {
-      data: { title, start, end, allDay, resource }
+      data: { title, start, end, allDay, city }
     })
     // this.setState({ data })
     console.log(data)
@@ -115,23 +98,38 @@ closePopup = () => {
       i18n.changeLanguage(lng);
       console.log({ Views })
     };
+    let culture = 'ES'
+    let formats = {
+      // dateFormat: 'dd',
+    
+      // dayFormat: (date, format,  localizer) =>
+      //   localizer.format(date, 'DDD', culture),
+    
+      dayRangeHeaderFormat: ({ start, end }, culture, localizer) =>
+        localizer.format(start, { date: 'short' }, culture) + ' — ' +
+        localizer.format(end, { date: 'short' }, culture)
+    }
+
     return <div className="App">
       <BrowserRouter>
         <Route path="/" exact render={() =>
           <div className="calendar-container">
-            <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup">Add reminder</Button>
-            {this.state.showPopup ? <Popup closePopup={this.closePopup}/> :
-            <Calendar popup='true'
-              localizer={localizer}
-              events={this.state.data}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: 500 }}
-              // onDoubleClickEvent={this.togglePopup}
-            // views={{Views}}
-            // showMultiDayTimes
-            // defaultDate={moment('2020/2/01')}
-            />}
+            <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup">Add Reminder</Button>
+            {this.state.showPopup ? <Popup closePopup={this.closePopup} pushData={this.pushData} /> :
+              <Calendar 
+              // popup='true'
+              formats={formats}
+                localizer={localizer}
+                events={this.state.data}
+                // startAccessor="start"
+                // endAccessor="end"
+                // getNow={this.getNow}
+                culture="ES"
+                style={{ height: 500 }}
+                onSelectEvent={this.selecEvent}
+                length={29}
+                
+              />}
           </div>
         }>
         </Route>
