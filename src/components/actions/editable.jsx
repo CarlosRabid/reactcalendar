@@ -60,8 +60,9 @@ class Editable extends React.Component {
     }
 
     delEventfromDB = async (event) => {
-        // console.log(event.target.id)
         await this.props.delEventfromDB(this.state._id)
+        return
+        // return
     }
 
     allDaySelector = async (event) => {
@@ -117,19 +118,11 @@ class Editable extends React.Component {
                 >
                     <DialogContent>
                         <DialogContentText>Review, Update & Delete</DialogContentText>
+                        <br />
                         <TextField id="title" label="Reminder Title"
                             value={this.state.title} onChange={this.update} />
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            value={this.state._id}
-                            size="small"
-                            id={this.state._id}
-                            startIcon={<FontAwesomeIcon id={this.state._id}
-                                onClick={this.delEventfromDB}
-                                value={this.state._id} icon={faTrash} />}
-                        >  Delete Reminder
-                        </Button>
+                        <br />
+                        <br />
                         <div>Start date:
                          <input type="date" id="start"
                                 placeholder={this.state.start}
@@ -138,13 +131,15 @@ class Editable extends React.Component {
                                 onChange={this.update} />
                         </div>
                         <TextField id="city" label="City" value={this.state.city} onChange={this.update} />
+                        <br />
+                        <br />
                         <div>All Day event? :
                     <ToggleButtonGroup
                                 value={this.state.allDay}
                                 exclusive
                                 onChange={this.allDaySelector}
                                 aria-label="Yes"
-                                style={{ justifyContent: "center" }}
+                                style={{ justifyContent: "center" , marginLeft: '5%'}}
                             >
                                 <ToggleButton id="allDay" value="true" aria-label="All Day event"
                                     style={{ height: '6vh', justifySelf: "center" }}>
@@ -156,6 +151,7 @@ class Editable extends React.Component {
                                     <FontAwesomeIcon icon={faCalendarTimes} id="allDay" value="false" />
                                 </ToggleButton>
                             </ToggleButtonGroup>
+                            <br />
                         </div>
                         <br />
                         {this.state.allDay === "" || this.state.allDay == "true" ?
@@ -167,10 +163,22 @@ class Editable extends React.Component {
                                 <br />
                             </>
                         }
+                        <br />
                         Assign Color:
                   <Selector colored={this.state.color} handleInput={this.handleInput} />
-                  </DialogContent>
+                    </DialogContent>
+                    <br />
                     <DialogActions>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            value={this.state._id}
+                            size="small"
+                            id={this.state._id}
+                            startIcon={<FontAwesomeIcon id={this.state._id}
+                                onClick={this.delEventfromDB}
+                                value={this.state._id} icon={faTrash} />}
+                        ></Button>
                         <button name={null} onClick={this.updateAction} >Update</button>
                         <button onClick={this.closeEdit} >Discard Changes</button>
                     </DialogActions>

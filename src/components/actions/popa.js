@@ -114,8 +114,11 @@ class Popup extends React.Component {
             >
                <DialogContent>
                   <DialogContentText></DialogContentText>
-                  <TextField id="title" label="Reminder Title"
-                     value={this.state.title} onChange={this.update} />
+                  <TextField id="title" label="New Reminder"
+                     value={this.state.title} onChange={this.update}
+                     inputProps={{ maxLength: 30 }} />
+                  <br />
+                  <br />
                   <div>Start date:
                      <input type="date" id="start"
                         placeholder={this.state.start}
@@ -124,6 +127,8 @@ class Popup extends React.Component {
                         onChange={this.update} />
                   </div>
                   <TextField id="city" label="City" value={this.state.city} onChange={this.update} />
+                  <br />
+                  <br />
                   <div>All Day event? :
                     <ToggleButtonGroup
                         value={this.state.allDay}
@@ -157,8 +162,8 @@ class Popup extends React.Component {
                   <Selector handleInput={this.handleInput} />
                </DialogContent>
                <DialogActions>
-                  <button name={null} onClick={this.updateData} >Update</button>
-                  <button onClick={this.closePopup} >Discard Changes</button>
+                  <button name={null} onClick={this.updateData} >Create</button>
+                  <button onClick={this.closePopup} >Cancel</button>
                </DialogActions>
             </Dialog>
          </div>
