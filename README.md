@@ -62,7 +62,7 @@ and CRUD operations .
 
 Initially you will see the following calendar 
  with no events scheduled.
-![Initial](https://github.com/CarlosRabid/reactcalendar/tree/master/public/inicaldesk.png?raw=true "Initial Desktop")
+![Initial](https://raw.githubusercontent.com/CarlosRabid/reactcalendar/master/public/inicaldesk.PNG "Initial Desktop")
 
 ## Running the tests: Add reminder
 
