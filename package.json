@@ -1,6 +1,6 @@
 {
   "name": "calendarccn",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^2.0.0-beta.2",
@@ -70,6 +70,14 @@
   "devDependencies": {
     "http-server": "^0.11.1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "ccn",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarlosRabid/reactcalendar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CarlosRabid/reactcalendar/issues"
+  },
+  "homepage": "https://github.com/CarlosRabid/reactcalendar#readme"
 }

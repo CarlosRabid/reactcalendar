@@ -26,15 +26,21 @@ import { withTranslation } from 'react-i18next';
 import { MDCRipple } from '@material/ripple';
 import { FloatingActionButton } from "material-ui";
 import { Add } from 'material-ui-icons';
+import PropTypes from 'prop-types'
 
+let dateFormat = PropTypes.any;
+let dateRangeFormat = PropTypes.func;
 
+const timeRangeStartFormat = ({ start }, culture, local) =>
+  `${local.format(start, 't', culture)} — `
+
+const timeRangeEndFormat = ({ end }, culture, local) => ` — ${local.format(end, 't', culture)}`
+
+const timeRangeFormat = ({ start, end }, culture, local) =>
+  `${local.format(start, 't', culture)} — ${local.format(end, 't', culture)}`
 
 let localizer = momentLocalizer(moment)
 // let allViews = Object.keys({Views}).map(k => console.log({Views}))
-
-// Views[k])
-
-
 
 class App extends Component {
   constructor() {
@@ -78,7 +84,7 @@ class App extends Component {
     return new Date()
   }
 
-  pushData = async (title, start, end, allDay, city) => {
+  pushData = async (title, start, end, allDay, city, color) => {
 
     let data = {}
     console.log(end)
@@ -86,7 +92,7 @@ class App extends Component {
     // data.push({ name, country, owner })
     // let nclient = {name, country, owner}
     await axios.post('http://localhost:4328/pevent', {
-      data: { title, start, end, allDay, city }
+      data: { title, start, end, allDay, city, color }
     })
     // this.setState({ data })
     console.log(data)
@@ -98,16 +104,14 @@ class App extends Component {
       i18n.changeLanguage(lng);
       console.log({ Views })
     };
-    let culture = 'ES'
     let formats = {
       // dateFormat: 'dd',
-    
       // dayFormat: (date, format,  localizer) =>
       //   localizer.format(date, 'DDD', culture),
-    
-      dayRangeHeaderFormat: ({ start, end }, culture, localizer) =>
-        localizer.format(start, { date: 'short' }, culture) + ' — ' +
-        localizer.format(end, { date: 'short' }, culture)
+      eventTimeRangeFormat: dateRangeFormat,
+      eventTimeRangeStartFormat: dateRangeFormat,
+      eventTimeRangeEndFormat: dateRangeFormat
+      // timeGutterFormat: 't'
     }
 
     return <div className="App">
@@ -116,9 +120,8 @@ class App extends Component {
           <div className="calendar-container">
             <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup">Add Reminder</Button>
             {this.state.showPopup ? <Popup closePopup={this.closePopup} pushData={this.pushData} /> :
-              <Calendar 
-              // popup='true'
-              formats={formats}
+              <Calendar
+                formats={formats}
                 localizer={localizer}
                 events={this.state.data}
                 // startAccessor="start"
@@ -127,8 +130,7 @@ class App extends Component {
                 culture="ES"
                 style={{ height: 500 }}
                 onSelectEvent={this.selecEvent}
-                length={29}
-                
+                views={['month']}
               />}
           </div>
         }>
