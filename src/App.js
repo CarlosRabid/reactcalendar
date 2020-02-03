@@ -27,6 +27,7 @@ import { MDCRipple } from '@material/ripple';
 import { FloatingActionButton } from "material-ui";
 import { Add } from 'material-ui-icons';
 import PropTypes from 'prop-types'
+import Editable from './components/actions/editable';
 
 let dateFormat = PropTypes.any;
 let dateRangeFormat = PropTypes.func;
@@ -48,7 +49,8 @@ class App extends Component {
     // this.getDatafromDB()
     this.state = {
       data: [],
-      showPopup: false
+      showPopup: false,
+      editmode: false
     }
 
   }
@@ -63,13 +65,24 @@ class App extends Component {
     return this.setState({ data: data.data, showPopup: false })
   }
 
-  async delDatafromDB(eventid) {
+  async delEventfromDB(eventid) {
     let _id = eventid
     let data = await axios.delete('http://localhost:4328/delevent', {
-      params: {_id}
+      params: { _id }
     })
     console.log(data.data)
     return this.setState({ data: data.data, showPopup: false })
+  }
+
+  async delDatafromDB(eventid) {
+    if (window.confirm("Are you sure you want to empty your reminders .")) {
+      let data = await axios.delete('http://localhost:4328/empty', {
+      })
+      alert('Deleted!.')
+      return this.setState({ data: [], showPopup: false })
+    } else {
+      return
+    }
   }
 
   togglePopup = (event) => {
@@ -78,15 +91,24 @@ class App extends Component {
     this.setState({ showPopup: true })
     // this.props.togglePopup()
   }
+
   closePopup = () => {
     return this.setState({
       showPopup: null
     })
   }
+  closeEdit = () => {
+    return this.setState({
+      editmode: false
+    })
+  }
 
-
-  selecEvent = (event, e) => {
-    return console.log(event, e)
+  selecEvent = (event) => {
+    let editmode = { ...this.state.editmode }
+    editmode = JSON.stringify(event)
+    console.log(editmode)
+    this.setState({ editmode })
+    return
   }
 
   getNow = () => {
@@ -94,7 +116,6 @@ class App extends Component {
   }
 
   pushData = async (title, start, end, allDay, city, color) => {
-
     let data = {}
     console.log(end)
     // let data = [...this.state.data]
@@ -103,24 +124,22 @@ class App extends Component {
     await axios.post('http://localhost:4328/pevent', {
       data: { title, start, end, allDay, city, color }
     })
-    // this.setState({ data })
-    console.log(data)
     return this.getDatafromDB()
   }
-  updateData = async (id, title, start, end, allDay, city, color) => {
 
+  updateEvent = async (id, title, start, end, allDay, city, color) => {
     let data = {}
     console.log(end)
     // let data = [...this.state.data]
     // data.push({ name, country, owner })
     // let nclient = {name, country, owner}
     await axios.put('http://localhost:4328/upevent', {
-      data: {id, title, start, end, allDay, city, color }
+      data: { id, title, start, end, allDay, city, color }
     })
-    // this.setState({ data })
     console.log(data)
     return this.getDatafromDB()
   }
+
   render() {
     const { t, i18n } = this.props;
     const changeLanguage = lng => {
@@ -142,6 +161,10 @@ class App extends Component {
         <Route path="/" exact render={() =>
           <div className="calendar-container">
             <Button variant="outlined" onClick={this.togglePopup} name="showPopup" id="showPopup">Add Reminder</Button>
+            <Button variant="contained" onClick={this.delDatafromDB}
+              position='end' color="secondary" name="delete all" id="empty">Empty ALL</Button>
+            {this.state.editmode ? <Editable selectEvent={this.state.editmode} closeEdit={this.closeEdit} updateEvent={this.updateEvent} /> :
+              <></>}
             {this.state.showPopup ? <Popup closePopup={this.closePopup} pushData={this.pushData} /> :
               <Calendar
                 formats={formats}

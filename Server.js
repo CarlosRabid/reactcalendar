@@ -96,7 +96,7 @@ app.post('/pevent', async function (req, res) {
 })
 
 app.put('/upevent', async (req, res) => {
-    let event = req.body
+    let event = req.body.data
     console.log(event)
     await eventscollection.findByIdAndUpdate(event.id, {
         title: event.title,
