@@ -20,17 +20,19 @@ import { FloatingActionButton } from "material-ui";
 import { Add } from 'material-ui-icons';
 import PropTypes from 'prop-types'
 import Editable from './components/actions/editable';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 // let dateFormat = PropTypes.any;
 let dateRangeFormat = PropTypes.func;
 
 const style = {
-  margin: 0,
-  top: '81vh',
-  right: '30vw',
-  bottom: 20,
-  left: 'auto',
-  position: 'fixed',
+  margin: 'auto',
+  // top: '71vh',
+  // right: '30vw',
+  // bottom: 20,
+  // left: 'auto',
+  marginLeft: '45%',
 };
 let localizer = momentLocalizer(moment)
 
@@ -54,7 +56,6 @@ class App extends Component {
   }
 
   async delEventfromDB(_id) {
-    console.log(_id)
     if (window.confirm("Delete this reminder ? ")) {
       let data = await axios.delete('http://localhost:4328/delevent/' + `${_id}`)
       alert('Reminder Deleted!')
@@ -132,6 +133,7 @@ class App extends Component {
             >Add Reminder</Button> */}
             <br />
             <Button variant="contained" onClick={this.delDatafromDB}
+            style={{marginLeft: '4%'}}
               size='small' position='end' color="secondary" name="delete all" id="empty"
             >Empty ALL</Button>
             <br />
@@ -144,13 +146,15 @@ class App extends Component {
                 formats={formats}
                 localizer={localizer}
                 events={this.state.data}
-                style={{ height: 500 }}
+                style={{ height: 500, marginLeft: '4vw', marginRight: '5vw' }}
                 onSelectEvent={this.selecEvent}
                 views={['month']}
               />}
             <Fab variant='extended' onClick={this.togglePopup}
               name="showPopup" id="showPopup" color="default"
-              aria-label="add" style={style} size='large'>New Reminder</Fab>
+              aria-label="add" style={style} size='large'> 
+              <FontAwesomeIcon icon={faPlus} size='2x' id="allDay" value="false" />
+               </Fab>
           </div>
         }>
         </Route>

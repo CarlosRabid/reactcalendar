@@ -3,11 +3,34 @@
 @import '../node_modules/react-big-calendar/lib/addons/dragAndDrop/styles.css';
 
 .App {
-  /* text-align: center;
-  background: -webkit-linear-gradient(left, #242423, #f5cb5c);
-  background: linear-gradient(to right, #f5cb5c, #242423); */
+  /* text-align: center;*/
+  background-color: #FBAB7E;
+  background-image: linear-gradient(62deg, #FBAB7E 13%, #F7CE68 83%, #ffffff 100%);
   font-family: 'Montserrat', sans-serif;
+  /* background-color: rgb(22, 87, 124);
+  background-image: url("../src/styles/background-turtle.jpeg"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed
 }
+
+.rbc-toolbar-label {
+  flex-grow: 1;
+  padding: 0 3px;
+  text-align: left;
+  font-size: 6vh;
+  margin-bottom: 16px;
+  margin-top: 0;
+  /* margin-left: 1%; */
+}
+
+.rbc-btn-group {
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: 2vw;
+}
+
 .popup {  
   position: fixed;  
   width: 80vw;  
