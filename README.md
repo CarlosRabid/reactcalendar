@@ -8,11 +8,19 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-You need to have installed React and MongoDB. Rest of dependencies come with npm install command.
+You need to have installed Node/npm, React and MongoDB. Rest of dependencies come with npm install command.
 
-Install React from official documentation here
+Install Node/npm from official documentation here
+
 ```
 https://en.reactjs.org/docs/getting-started.html
+```
+
+
+Install React from here
+
+```
+https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 ```
 
 and MongoDB here --> 
