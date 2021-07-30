@@ -6,12 +6,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Button from '@material-ui/core/Button';
-import { faCheckSquare, faCalendarTimes, faTrash, faStarHalfAlt, faStarHalf, faGrinStars, faStarOfLife, faBan } from '@fortawesome/free-solid-svg-icons'
+import { faCheckSquare, faCalendarTimes, faTrash} from '@fortawesome/free-solid-svg-icons'
 
 const axios = require('axios')
 
@@ -62,7 +61,6 @@ class Editable extends React.Component {
     delEventfromDB = async (event) => {
         await this.props.delEventfromDB(this.state._id)
         return
-        // return
     }
 
     allDaySelector = async (event) => {

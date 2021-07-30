@@ -102,8 +102,6 @@ class Popup extends React.Component {
    }
 
    render() {
-      const marginLeft = '5%';
-      const heightD = '10%';
       return (
          <div className='none'>
             <Dialog
