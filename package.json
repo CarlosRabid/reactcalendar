@@ -28,7 +28,7 @@
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.33",
-    "mongoose": "^5.7.4",
+    "mongoose": "^5.7.5",
     "nodemon": "^2.0.2",
     "react": "^16.10.2",
     "react-big-calendar": "^0.23.0",
